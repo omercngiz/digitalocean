@@ -15,24 +15,20 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # 1. Yol (PATH) tanımlamasını yapalım ki npm/pm2 bulunsun
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            export PATH=$PATH:/usr/bin:/usr/local/bin:$HOME/.npm-global/bin
-            
-            # 2. Klasöre git
+            # 1. Klasöre git ve SSH anahtarını tanıması için bir ayar ekle
             mkdir -p /var/www/cengizdev
             cd /var/www/cengizdev
-            
-            # 3. Git işlemini "token" ile yapalım (Şifre sormaması için)
-            # Eğer reponuz PUBLIC ise bu satır yeterli:
+            ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
+            # 2. Git işlemi (SSH Linki ile)
             if [ -d ".git" ]; then
               git pull origin main
             else
-              git clone https://github.com/omercngiz/digitalocean.git .
+              git clone git@github.com:omercngiz/digitalocean.git .
             fi
-            
-            # 4. Bağımlılıklar ve Uygulamayı Başlat
-            npm install
-            pm2 delete cengizdev-app || true
-            pm2 start index.js --name "cengizdev-app"
+
+            # 3. Senin verdiğin tam yolları kullanarak çalıştır
+            /root/.nvm/versions/node/v24.14.0/bin/npm install
+            /root/.nvm/versions/node/v24.14.0/bin/pm2 delete cengizdev-app || true
+            /root/.nvm/versions/node/v24.14.0/bin/pm2 start index.js --name "cengizdev-app"
+            /root/.nvm/versions/node/v24.14.0/bin/pm2 save
