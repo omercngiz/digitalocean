@@ -1,0 +1,32 @@
+name: Node.js CD (Otomatik Dağıtım)
+
+on:
+  push:
+    branches: [ main ] # Sadece main branch'ine push yapınca çalışır
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sunucuya Bağlan ve Güncelle
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Uygulama klasörüne git (Eğer yoksa oluştur)
+            mkdir -p /var/www/cengizdev
+            cd /var/www/cengizdev
+            
+            # Eğer klasör boşsa repoyu çek, doluysa günceller
+            if [ -d ".git" ]; then
+              git pull origin main
+            else
+              git clone https://github.com/omercngiz/digitalocean.git .
+            fi
+            
+            # Bağımlılıkları yükle ve PM2 ile başlat
+            npm install
+            pm2 delete cengizdev-app || true # Varsa sil ki çakışmasın
+            pm2 start index.js --name "cengizdev-app"
