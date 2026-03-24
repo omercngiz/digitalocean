@@ -2,7 +2,7 @@ name: Node.js CD (Otomatik Dağıtım)
 
 on:
   push:
-    branches: [ main ] # Sadece main branch'ine push yapınca çalışır
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -15,18 +15,24 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # Uygulama klasörüne git (Eğer yoksa oluştur)
+            # 1. Yol (PATH) tanımlamasını yapalım ki npm/pm2 bulunsun
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            export PATH=$PATH:/usr/bin:/usr/local/bin:$HOME/.npm-global/bin
+            
+            # 2. Klasöre git
             mkdir -p /var/www/cengizdev
             cd /var/www/cengizdev
             
-            # Eğer klasör boşsa repoyu çek, doluysa günceller
+            # 3. Git işlemini "token" ile yapalım (Şifre sormaması için)
+            # Eğer reponuz PUBLIC ise bu satır yeterli:
             if [ -d ".git" ]; then
               git pull origin main
             else
               git clone https://github.com/omercngiz/digitalocean.git .
             fi
             
-            # Bağımlılıkları yükle ve PM2 ile başlat
+            # 4. Bağımlılıklar ve Uygulamayı Başlat
             npm install
-            pm2 delete cengizdev-app || true # Varsa sil ki çakışmasın
+            pm2 delete cengizdev-app || true
             pm2 start index.js --name "cengizdev-app"
