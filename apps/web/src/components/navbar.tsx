@@ -34,7 +34,7 @@ export function Navbar() {
             </Link>
           ))}
           <Link
-            href="#giris"
+            href="/auth"
             className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
           >
             Giriş Yap
@@ -70,7 +70,7 @@ export function Navbar() {
             </Link>
           ))}
           <Link
-            href="#giris"
+            href="/auth"
             onClick={() => setIsOpen(false)}
             className="w-full rounded-lg bg-accent px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
           >

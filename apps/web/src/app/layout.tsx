@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="tr" className={montserrat.variable}>
-      <body className="flex min-h-dvh flex-col font-[family-name:var(--font-montserrat)] text-primary antialiased">
+      <body className="flex min-h-dvh flex-col font-(family-name:--font-montserrat) text-primary antialiased">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
