@@ -37,7 +37,9 @@ jobs:
             pnpm install
             pnpm build
 
-            # 4. PM2 ile uygulamayı başlat
+            # 4. PM2 ile Next.js web uygulamasını başlat
             pm2 delete cengizdev-app || true
-            pm2 start apps/api/dist/app.js --name "cengizdev-app"
+            cd apps/web
+            pm2 start "pnpm start" --name "cengizdev-app"
+            cd ../..
             pm2 save
