@@ -71,7 +71,7 @@ export function ContactContent() {
             <div className="order-2 overflow-hidden rounded-xl border border-border">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.6504757828565!2d29.0225!3d40.9925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac790b17ba89d%3A0x4b4542e2cab5e893!2sCengiz%20Bilgi%20Teknolojileri!5e0!3m2!1str!2str!4v1711461600000!5m2!1str!2str"
-                className="h-80 w-full lg:h-full lg:min-h-[500px]"
+                className="h-80 w-full lg:h-full lg:min-h-125"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"

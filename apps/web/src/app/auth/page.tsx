@@ -39,7 +39,7 @@ export default function AuthPage() {
         </div>
 
         {/* ─── Tablet+: side-by-side with sliding overlay ─── */}
-        <div className="relative hidden h-[540px] md:flex">
+        <div className="relative hidden h-135 md:flex">
           {/* Form panels (both always rendered, visibility toggled) */}
           <div className="flex w-full">
             {/* Left half: Login form */}
