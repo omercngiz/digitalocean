@@ -15,6 +15,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            # 0. nvm ortamını yükle (node, corepack, pnpm, pm2 PATH'e eklensin)
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
             # 1. Klasöre git ve SSH anahtarını tanıması için bir ayar ekle
             mkdir -p /var/www/cengizdev
             cd /var/www/cengizdev
@@ -34,7 +38,6 @@ jobs:
             pnpm build
 
             # 4. PM2 ile uygulamayı başlat
-            /root/.nvm/versions/node/v24.14.0/bin/pm2 delete cengizdev-app || true
-            /root/.nvm/versions/node/v24.14.0/bin/pm2 start apps/api/dist/app.js --name "cengizdev-app"
-            /root/.nvm/versions/node/v24.14.0/bin/pm2 save
-            
+            pm2 delete cengizdev-app || true
+            pm2 start apps/api/dist/app.js --name "cengizdev-app"
+            pm2 save
