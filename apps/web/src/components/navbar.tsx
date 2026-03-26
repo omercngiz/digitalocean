@@ -6,9 +6,9 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: "#hakkimizda", label: "Hakkımızda" },
+  { href: "/about", label: "Hakkımızda" },
   { href: "#urunler", label: "Ürünler" },
-  { href: "#iletisim", label: "İletişim" },
+  { href: "/contact", label: "İletişim" },
 ];
 
 export function Navbar() {
