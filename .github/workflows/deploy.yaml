@@ -27,8 +27,13 @@ jobs:
               git clone git@github.com:omercngiz/digitalocean.git .
             fi
 
-            # 3. Senin verdiğin tam yolları kullanarak çalıştır
-            /root/.nvm/versions/node/v24.14.0/bin/npm install
+            # 3. pnpm ile bağımlılıkları kur ve build et
+            corepack enable
+            corepack prepare pnpm@10.32.1 --activate
+            pnpm install
+            pnpm build
+
+            # 4. PM2 ile uygulamayı başlat
             /root/.nvm/versions/node/v24.14.0/bin/pm2 delete cengizdev-app || true
-            /root/.nvm/versions/node/v24.14.0/bin/pm2 start app.js --name "cengizdev-app"
+            /root/.nvm/versions/node/v24.14.0/bin/pm2 start apps/api/dist/app.js --name "cengizdev-app"
             /root/.nvm/versions/node/v24.14.0/bin/pm2 save
