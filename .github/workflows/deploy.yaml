@@ -37,3 +37,4 @@ jobs:
             /root/.nvm/versions/node/v24.14.0/bin/pm2 delete cengizdev-app || true
             /root/.nvm/versions/node/v24.14.0/bin/pm2 start apps/api/dist/app.js --name "cengizdev-app"
             /root/.nvm/versions/node/v24.14.0/bin/pm2 save
+            
