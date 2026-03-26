@@ -11,7 +11,7 @@ export default function Home() {
         Modern, hızlı ve güvenilir çözümler üreten bir yazılım platformu.
       </p>
       <Link
-        href="#urunler"
+        href="/products"
         className="mt-8 inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
       >
         Ürünleri Keşfet

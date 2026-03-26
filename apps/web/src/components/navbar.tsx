@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/about", label: "Hakkımızda" },
-  { href: "#urunler", label: "Ürünler" },
+  { href: "/products", label: "Ürünler" },
   { href: "/contact", label: "İletişim" },
 ];
 
