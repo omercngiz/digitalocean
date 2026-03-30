@@ -2,17 +2,20 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/context/cart-context";
 
 const navLinks = [
   { href: "/about", label: "Hakkımızda" },
   { href: "/products", label: "Ürünler" },
+  { href: "/store", label: "Mağaza" },
   { href: "/contact", label: "İletişim" },
 ];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { totalItems } = useCart();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
@@ -33,6 +36,21 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
+
+          {/* Cart Icon */}
+          <Link
+            href="/cart"
+            className="relative text-muted transition-colors hover:text-primary"
+            aria-label="Sepet"
+          >
+            <ShoppingCart size={20} />
+            {totalItems > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-white">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+
           <Link
             href="/auth"
             className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
@@ -42,20 +60,34 @@ export function Navbar() {
         </div>
 
         {/* Mobile Toggle */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="text-primary md:hidden"
-          aria-label="Menüyü aç/kapat"
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center gap-4 md:hidden">
+          <Link
+            href="/cart"
+            className="relative text-muted transition-colors hover:text-primary"
+            aria-label="Sepet"
+          >
+            <ShoppingCart size={20} />
+            {totalItems > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-white">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-primary"
+            aria-label="Menüyü aç/kapat"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Menu */}
       <div
         className={cn(
           "overflow-hidden border-t border-border transition-all duration-300 md:hidden",
-          isOpen ? "max-h-64" : "max-h-0 border-t-0"
+          isOpen ? "max-h-72" : "max-h-0 border-t-0"
         )}
       >
         <div className="flex flex-col gap-4 px-4 py-4">
