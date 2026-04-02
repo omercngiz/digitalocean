@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 
 const app = express();
@@ -9,8 +9,12 @@ app.use(cors({
     credentials: true
 }))
 
-app.get('/', (req, res) => {
-  res.send('Hello from Product Service!');
+app.get('/health', (req:Request, res:Response) => {
+  res.status(200).json({
+    status: "success",
+    uptime: process.uptime(),
+    timeStamp: new Date().toISOString(),
+  });
 });
 
 app.listen(PORT, () => {
