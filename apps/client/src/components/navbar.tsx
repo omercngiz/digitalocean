@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, ShoppingCart } from "lucide-react";
+import { Menu, X, ShoppingCart, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/context/cart-context";
+import { Show } from "@clerk/nextjs";
 
 const navLinks = [
   { href: "/about", label: "Hakkımızda" },
@@ -21,7 +22,10 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold tracking-tight text-primary">
+        <Link
+          href="/"
+          className="text-xl font-bold tracking-tight text-primary"
+        >
           cengizdev
         </Link>
 
@@ -51,12 +55,16 @@ export function Navbar() {
             )}
           </Link>
 
-          <Link
-            href="/auth"
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
-          >
-            Giriş Yap
-          </Link>
+          <Show when="signed-out" fallback={
+            <User size={20} className="text-muted transition-colors hover:text-primary" />
+          }>
+            <Link
+              href="/auth"
+              className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+            >
+              Giriş Yap
+            </Link>
+          </Show>
         </div>
 
         {/* Mobile Toggle */}
@@ -87,7 +95,7 @@ export function Navbar() {
       <div
         className={cn(
           "overflow-hidden border-t border-border transition-all duration-300 md:hidden",
-          isOpen ? "max-h-72" : "max-h-0 border-t-0"
+          isOpen ? "max-h-72" : "max-h-0 border-t-0",
         )}
       >
         <div className="flex flex-col gap-4 px-4 py-4">
@@ -101,13 +109,17 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link
-            href="/auth"
-            onClick={() => setIsOpen(false)}
-            className="w-full rounded-lg bg-accent px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
-          >
-            Giriş Yap
-          </Link>
+          <Show when="signed-out" fallback={
+            <User size={20} className="text-muted transition-colors hover:text-primary" />
+          }>
+            <Link
+              href="/auth"
+              onClick={() => setIsOpen(false)}
+              className="w-full rounded-lg bg-accent px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+            >
+              Giriş Yap
+            </Link>
+          </Show>
         </div>
       </div>
     </header>
