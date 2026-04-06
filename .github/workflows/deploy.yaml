@@ -26,7 +26,9 @@ jobs:
             grep -qF "github.com" ~/.ssh/known_hosts 2>/dev/null || ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
             if [ -d ".git" ]; then
-              git pull origin main
+              git fetch origin main
+              git reset --hard origin/main
+              git clean -fd
             else
               git clone git@github.com:omercngiz/digitalocean.git .
             fi
