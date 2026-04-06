@@ -15,13 +15,15 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e
+
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-            cd /var/www/cengizdev
             mkdir -p /var/www/cengizdev
             cd /var/www/cengizdev
-            ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
+            grep -qF "github.com" ~/.ssh/known_hosts 2>/dev/null || ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
             if [ -d ".git" ]; then
               git pull origin main
@@ -29,14 +31,14 @@ jobs:
               git clone git@github.com:omercngiz/digitalocean.git .
             fi
 
-            cat > apps/client/.env << 'EOF'
+            cat > apps/client/.env << 'ENVEOF'
             NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
             CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}
             NEXT_PUBLIC_CLERK_SIGN_IN_URL=/auth
             NEXT_PUBLIC_CLERK_SIGN_UP_URL=/auth
             NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
             NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
-            EOF
+            ENVEOF
 
             corepack enable
             corepack prepare pnpm@10.32.1 --activate
