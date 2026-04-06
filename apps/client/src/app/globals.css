@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "@clerk/ui/themes/shadcn.css";
+@import "./clerk-custom.css";
 
 @theme {
   --color-primary: #0f172a;
@@ -8,4 +10,8 @@
   --color-border: #e2e8f0;
   --color-background: #ffffff;
   --color-surface: #f8fafc;
+}
+
+.html {
+  background-color: #fff;
 }

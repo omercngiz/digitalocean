@@ -2,9 +2,18 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { LoginForm } from "@/components/auth/login-form";
-import { RegisterForm } from "@/components/auth/register-form";
 import { Button } from "@/components/ui/button";
+import { SignIn, SignUp } from "@clerk/nextjs";
+
+const clerkAppearance = {
+  elements: {
+    formButtonPrimary: "bg-accent hover:bg-accent/90 text-white",
+    footer: "display-none",
+    rootBox: "border-none",
+    cardBox: "border-none",
+    card: "border-none",
+  },
+};
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(false);
@@ -24,8 +33,12 @@ export default function AuthPage() {
                 : "Hemen kayıt olun ve platformumuzu keşfedin."}
             </p>
           </div>
-          <div className="px-6 py-8">
-            {isLogin ? <LoginForm /> : <RegisterForm />}
+          <div className="px-6 py-8 flex flex-col items-center justify-center">
+            {isLogin ? (
+              <SignIn routing="hash" appearance={clerkAppearance} />
+            ) : (
+              <SignUp routing="hash" appearance={clerkAppearance} />
+            )}
             <div className="mt-6 text-center text-sm text-muted">
               {isLogin ? "Hesabınız yok mu?" : "Zaten hesabınız var mı?"}{" "}
               <button
@@ -40,35 +53,36 @@ export default function AuthPage() {
 
         {/* ─── Tablet+: side-by-side with sliding overlay ─── */}
         <div className="relative hidden h-135 md:flex">
-          {/* Form panels (both always rendered, visibility toggled) */}
           <div className="flex w-full">
-            {/* Left half: Login form */}
+            {/* Left half: Login form — sadece isLogin true iken mount */}
             <div
               className={cn(
                 "flex w-1/2 flex-col items-center justify-center px-10 transition-all duration-500",
-                isLogin ? "opacity-100 delay-200" : "pointer-events-none opacity-0"
+                isLogin
+                  ? "opacity-100 delay-200"
+                  : "pointer-events-none opacity-0",
               )}
             >
-              <div className="w-full max-w-sm">
-                <h2 className="mb-6 text-2xl font-bold text-primary">
-                  Giriş Yap
-                </h2>
-                <LoginForm />
+              <div className="w-full max-w-sm flex flex-col items-center justify-center">
+                {isLogin && (
+                  <SignIn routing="hash" appearance={clerkAppearance} />
+                )}
               </div>
             </div>
 
-            {/* Right half: Register form */}
+            {/* Right half: Register form — sadece isLogin false iken mount */}
             <div
               className={cn(
                 "flex w-1/2 flex-col items-center justify-center px-10 transition-all duration-500",
-                !isLogin ? "opacity-100 delay-200" : "pointer-events-none opacity-0"
+                !isLogin
+                  ? "opacity-100 delay-200"
+                  : "pointer-events-none opacity-0",
               )}
             >
-              <div className="w-full max-w-sm">
-                <h2 className="mb-6 text-2xl font-bold text-primary">
-                  Kayıt Ol
-                </h2>
-                <RegisterForm />
+              <div className="w-full max-w-sm flex flex-col items-center justify-center">
+                {!isLogin && (
+                  <SignUp routing="hash" appearance={clerkAppearance} />
+                )}
               </div>
             </div>
           </div>
@@ -77,7 +91,7 @@ export default function AuthPage() {
           <div
             className={cn(
               "absolute top-0 h-full w-1/2 bg-accent transition-transform duration-500 ease-in-out",
-              isLogin ? "left-0 translate-x-full" : "left-0 translate-x-0"
+              isLogin ? "left-0 translate-x-full" : "left-0 translate-x-0",
             )}
           >
             <div className="flex h-full flex-col items-center justify-center px-10 text-center text-white">

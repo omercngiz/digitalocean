@@ -5,7 +5,10 @@ import Link from "next/link";
 import { Menu, X, ShoppingCart, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/context/cart-context";
-import { Show } from "@clerk/nextjs";
+import {
+  Show,
+  UserButton,
+} from "@clerk/nextjs";
 
 const navLinks = [
   { href: "/about", label: "Hakkımızda" },
@@ -55,15 +58,11 @@ export function Navbar() {
             )}
           </Link>
 
-          <Show when="signed-out" fallback={
-            <User size={20} className="text-muted transition-colors hover:text-primary" />
-          }>
-            <Link
-              href="/auth"
-              className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
-            >
-              Giriş Yap
-            </Link>
+          <Show when="signed-out">
+            <Link href="/auth" className="rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover">Giriş Yap</Link>
+          </Show>
+          <Show when="signed-in">
+            <UserButton />
           </Show>
         </div>
 
@@ -109,16 +108,12 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Show when="signed-out" fallback={
-            <User size={20} className="text-muted transition-colors hover:text-primary" />
-          }>
-            <Link
-              href="/auth"
-              onClick={() => setIsOpen(false)}
-              className="w-full rounded-lg bg-accent px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
-            >
-              Giriş Yap
-            </Link>
+
+          <Show when="signed-out">
+            <Link href="/auth" className="rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover">Giriş Yap</Link>
+          </Show>
+          <Show when="signed-in">
+            <UserButton />
           </Show>
         </div>
       </div>

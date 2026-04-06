@@ -22,7 +22,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+    appearance={{
+      theme: 'simple',
+      variables: {
+        colorPrimary: "#3b82f6",
+        fontFamily: "var(--font-montserrat)",
+      }
+    }}>
       <html lang="tr" className={montserrat.variable}>
         <body className="flex min-h-dvh flex-col font-(family-name:--font-montserrat) text-primary antialiased">
           <CartProvider>

@@ -15,31 +15,36 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # 0. nvm ortamını yükle (node, corepack, pnpm, pm2 PATH'e eklensin)
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-            # 1. Klasöre git ve SSH anahtarını tanıması için bir ayar ekle
+            cd /var/www/cengizdev
             mkdir -p /var/www/cengizdev
             cd /var/www/cengizdev
             ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-            # 2. Git işlemi (SSH Linki ile)
             if [ -d ".git" ]; then
               git pull origin main
             else
               git clone git@github.com:omercngiz/digitalocean.git .
             fi
 
-            # 3. pnpm ile bağımlılıkları kur ve build et
+            cat > apps/client/.env << 'EOF'
+            NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+            CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}
+            NEXT_PUBLIC_CLERK_SIGN_IN_URL=/auth
+            NEXT_PUBLIC_CLERK_SIGN_UP_URL=/auth
+            NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
+            NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
+            EOF
+
             corepack enable
             corepack prepare pnpm@10.32.1 --activate
             pnpm install
             pnpm build
 
-            # 4. PM2 ile Next.js web uygulamasını başlat
             pm2 delete cengizdev-app || true
-            cd apps/web
+            cd apps/client
             pm2 start "pnpm start" --name "cengizdev-app"
             cd ../..
             pm2 save
