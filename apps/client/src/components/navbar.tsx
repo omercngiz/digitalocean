@@ -12,7 +12,6 @@ import {
 
 const navLinks = [
   { href: "/about", label: "Hakkımızda" },
-  { href: "/products", label: "Ürünler" },
   { href: "/store", label: "Mağaza" },
   { href: "/contact", label: "İletişim" },
 ];
