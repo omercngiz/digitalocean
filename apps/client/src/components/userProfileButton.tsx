@@ -6,7 +6,9 @@ const UserProfileButton = () => {
 	const router = useRouter();
 
 	return (
-		<UserButton>
+		<UserButton
+			appearance={{ elements: { userButtonPopoverFooter: "display-none" } }}
+		>
 			<UserButton.MenuItems>
 				<UserButton.Action
 					label="Siparişler"

@@ -5,40 +5,43 @@ import { Footer } from "@/components/footer";
 import { CartProvider } from "@/context/cart-context";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { trTR } from "@clerk/localizations";
 
 const montserrat = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-montserrat",
+	subsets: ["latin"],
+	variable: "--font-montserrat",
 });
 
 export const metadata: Metadata = {
-  title: "cengizdev",
-  description: "cengizdev — Web Uygulaması",
+	title: "cengizdev",
+	description: "cengizdev — Web Uygulaması",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
-    <ClerkProvider
-    appearance={{
-      theme: 'simple',
-      variables: {
-        colorPrimary: "#3b82f6",
-        fontFamily: "var(--font-montserrat)",
-      }
-    }}>
-      <html lang="tr" className={montserrat.variable}>
-        <body className="flex min-h-dvh flex-col font-(family-name:--font-montserrat) text-primary antialiased">
-          <CartProvider>
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </CartProvider>
-        </body>
-      </html>
-    </ClerkProvider>
-  );
+	return (
+		<ClerkProvider
+			localization={trTR}
+			appearance={{
+				theme: "simple",
+				variables: {
+					colorPrimary: "#3b82f6",
+					fontFamily: "var(--font-montserrat)",
+				},
+			}}
+		>
+			<html lang="tr" className={montserrat.variable}>
+				<body className="flex min-h-dvh flex-col font-(family-name:--font-montserrat) text-primary antialiased">
+					<CartProvider>
+						<Navbar />
+						<main className="flex-1">{children}</main>
+						<Footer />
+					</CartProvider>
+				</body>
+			</html>
+		</ClerkProvider>
+	);
 }
