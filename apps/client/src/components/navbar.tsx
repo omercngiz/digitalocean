@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/context/cart-context";
-import { Show, UserButton } from "@clerk/nextjs";
+import { Show } from "@clerk/nextjs";
 import UserProfileButton from "./userProfileButton";
 
 const navLinks = [

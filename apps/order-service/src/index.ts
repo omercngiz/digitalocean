@@ -1,10 +1,12 @@
-import { timeStamp } from "console";
+import { clerkPlugin } from "@clerk/fastify";
 import Fastify from "fastify";
-import { uptime } from "process";
+import { shouldBeUser } from "./middleware/auth";
 
 const fastify = Fastify({
   logger: true,
 });
+
+fastify.register(clerkPlugin);
 
 fastify.get("/health", async (request, reply) => {
   return reply.status(200).send({
@@ -12,6 +14,10 @@ fastify.get("/health", async (request, reply) => {
     uptime: process.uptime(),
     timeStamp: new Date().toISOString(),
   });
+});
+
+fastify.get("/test", { preHandler: shouldBeUser }, async (request, reply) => {
+  return reply.send({ message: "Authenticated!", userId: request.userId });
 });
 
 const start = async () => {

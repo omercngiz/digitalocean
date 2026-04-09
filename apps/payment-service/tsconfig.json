@@ -1,3 +1,9 @@
 {
-    "extends": "@digitalocean/typescript-config/base.json"
+	"extends": "@digitalocean/typescript-config/node.json",
+	"compilerOptions": {
+		"rootDir": "src",
+		"outDir": "dist",
+		"types": ["node"]
+	},
+	"include": ["src"]
 }
