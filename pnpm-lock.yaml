@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      prettier:
+        specifier: ^3.5.0
+        version: 3.8.1
       turbo:
         specifier: ^2.8.20
         version: 2.8.20
@@ -94,12 +97,18 @@ importers:
         specifier: ^5.8.4
         version: 5.8.4
     devDependencies:
+      '@digitalocean/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
       '@digitalocean/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
       '@types/node':
         specifier: ^22.19.15
         version: 22.19.15
+      eslint:
+        specifier: ^9.0.0
+        version: 9.39.4(jiti@2.6.1)
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -116,12 +125,18 @@ importers:
         specifier: ^4.12.9
         version: 4.12.9
     devDependencies:
+      '@digitalocean/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
       '@digitalocean/typescript-config':
         specifier: workspace:^
         version: link:../../packages/typescript-config
       '@types/node':
         specifier: ^20.11.17
         version: 20.19.37
+      eslint:
+        specifier: ^9.0.0
+        version: 9.39.4(jiti@2.6.1)
       tsx:
         specifier: ^4.7.1
         version: 4.21.0
@@ -138,6 +153,9 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1
     devDependencies:
+      '@digitalocean/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
       '@digitalocean/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -147,6 +165,9 @@ importers:
       '@types/express':
         specifier: ^5.0.6
         version: 5.0.6
+      eslint:
+        specifier: ^9.0.0
+        version: 9.39.4(jiti@2.6.1)
       typescript:
         specifier: ^5.7.0
         version: 5.9.3
@@ -162,6 +183,9 @@ importers:
       eslint:
         specifier: ^9.0.0
         version: 9.39.4(jiti@2.6.1)
+      eslint-config-prettier:
+        specifier: ^10.0.0
+        version: 10.1.8(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-turbo:
         specifier: ^2.0.0
         version: 2.8.20(eslint@9.39.4(jiti@2.6.1))(turbo@2.8.20)
@@ -1984,6 +2008,12 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
+  eslint-config-prettier@10.1.8:
+    resolution: {integrity: sha512-82GZUjRS0p/jganf6q1rEO25VSoHH0hKPCTrgillPjdI/3bgBhAE1QzHrHTizjpRvy6pGAvKjDJtk2pF9NDq8w==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+
   eslint-plugin-turbo@2.8.20:
     resolution: {integrity: sha512-sMDremg73XbX+Imh7iDRS3TAro5jIf7CdzSqrT50wCGhClbiUvmWcLomnX+ldUbfTy+OvtqOeePvTivJMR87eQ==}
     peerDependencies:
@@ -2922,6 +2952,11 @@ packages:
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
+
+  prettier@3.8.1:
+    resolution: {integrity: sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
@@ -5415,6 +5450,10 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
+  eslint-config-prettier@10.1.8(eslint@9.39.4(jiti@2.6.1)):
+    dependencies:
+      eslint: 9.39.4(jiti@2.6.1)
+
   eslint-plugin-turbo@2.8.20(eslint@9.39.4(jiti@2.6.1))(turbo@2.8.20):
     dependencies:
       dotenv: 16.0.3
@@ -6487,6 +6526,8 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
+  prettier@3.8.1: {}
+
   pretty-format@29.7.0:
     dependencies:
       '@jest/schemas': 29.6.3
@@ -6656,7 +6697,7 @@ snapshots:
 
   rpc-websockets@9.3.7:
     dependencies:
-      '@swc/helpers': 0.5.15
+      '@swc/helpers': 0.5.17
       '@types/uuid': 10.0.0
       '@types/ws': 8.18.1
       buffer: 6.0.3

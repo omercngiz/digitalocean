@@ -7,9 +7,12 @@
 		"dev": "turbo dev",
 		"build": "turbo build",
 		"check-types": "turbo check-types",
-		"lint": "turbo lint"
+		"lint": "turbo lint",
+		"format": "prettier --write .",
+		"format:check": "prettier --check ."
 	},
 	"devDependencies": {
+		"prettier": "^3.5.0",
 		"turbo": "^2.8.20"
 	}
 }
