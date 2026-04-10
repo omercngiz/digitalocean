@@ -10,5 +10,8 @@
 		"apps/order-service",
 		"apps/payment-service",
 		"apps/product-service"
-	]
+	],
+	"[prisma]": {
+		"editor.defaultFormatter": "Prisma.prisma"
+	}
 }
