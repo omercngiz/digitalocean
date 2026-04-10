@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { clerkMiddleware } from '@clerk/express';
 import { shouldBeUser } from './middleware/auth';
+import productRouter from './routes/product.route';
+import categoryRouter from './routes/category.route';
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -12,6 +14,9 @@ app.use(cors({
 }))
 app.use(express.json());
 app.use(clerkMiddleware());
+
+app.use('/products', productRouter);
+app.use('/categories', categoryRouter);
 
 app.get('/health', (req:Request, res:Response) => {
   res.status(200).json({
