@@ -15,7 +15,8 @@
 	},
 	"devDependencies": {
 		"@digitalocean/eslint-config": "workspace:*",
-		"@digitalocean/typescript-config": "workspace:^",
+		"@digitalocean/typescript-config": "workspace:*",
+		"@digitalocean/types": "workspace:*",
 		"@types/node": "^20.11.17",
 		"eslint": "^9.0.0",
 		"tsx": "^4.7.1",
