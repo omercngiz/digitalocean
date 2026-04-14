@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { getAuth } from '@clerk/express';
+import type { CustomJwtSessionClaims } from '@digitalocean/types';
 
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -18,6 +19,25 @@ export const shouldBeUser = (req: Request, res: Response, next: NextFunction) =>
     }
 
     req.userId = auth.userId;
+
+    return next();
+}
+
+export const shouldBeAdmin = (req: Request, res: Response, next: NextFunction) => {
+    const auth = getAuth(req);
+    const userId = auth.userId;
+
+    if (!userId) {
+        return res.status(401).json({ message: 'You are not logged in' });
+    }
+
+    const claims = auth.sessionClaims as CustomJwtSessionClaims;
+
+    if (claims.metadata?.role !== 'admin') {
+        return res.status(403).json({ message: 'Unauthorized' });
+    }
+
+    req.userId = userId;
 
     return next();
 }

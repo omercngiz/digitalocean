@@ -8,25 +8,79 @@ datasource db {
 }
 
 model Product {
-  id               String   @id @default(uuid())
-  name             String
-  shortDescription String
-  description      String
-  price            Float
-  sizes            String[]
-  colors           String[]
-  images           String[]
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  categorySlug     String
-  category         Category @relation(fields: [categorySlug], references: [slug])
+  id             String  @id @default(uuid())
+  name           String
+  slug           String  @unique
+  description    String  @db.Text
+  price          Float   @map("price")
+  compareAtPrice Float?  @map("compare_at_price")
+  costPerItem    Float?  @map("cost_per_item")
+  sku            String? @unique
+  barcode        String? @unique
+  quantity       Int     @default(0)
+  trackInventory Boolean @default(true) @map("track_inventory")
+  weight         Float?
+  width          Float?
+  height         Float?
+  depth          Float?
+
+  // Hat sanatına özel alanlar
+  artistName      String? @map("artist_name")
+  calligraphyType String? @map("calligraphy_type")
+  material        String?
+  inkType         String? @map("ink_type")
+  framing         String?
+  certificate     Boolean @default(false)
+  yearCreated     Int?    @map("year_created")
+
+  // SEO ve görsel
+  images         String[]
+  seoTitle       String?  @map("seo_title")
+  seoDescription String?  @map("seo_description")
+
+  // İlişkiler
+  categoryId String?   @map("category_id")
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  // Durum ve zaman damgaları
+  status     ProductStatus @default(ACTIVE)
+  isFeatured Boolean       @default(false) @map("is_featured")
+  createdAt  DateTime      @default(now()) @map("created_at")
+  updatedAt  DateTime      @updatedAt @map("updated_at")
+
+  @@map("products")
 }
 
 model Category {
-  id        String    @id @default(uuid())
-  name      String
-  slug      String    @unique
-  products  Product[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String  @id @default(uuid())
+  name        String
+  slug        String  @unique
+  description String? @db.Text
+  image       String?
+
+  // SEO
+  seoTitle       String? @map("seo_title")
+  seoDescription String? @map("seo_description")
+
+  // İlişkiler
+  products Product[]
+
+  // Durum ve zaman damgaları
+  status    CategoryStatus @default(ACTIVE)
+  sortOrder Int            @default(0) @map("sort_order")
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+
+  @@map("categories")
+}
+
+enum ProductStatus {
+  ACTIVE
+  DRAFT
+  ARCHIVED
+}
+
+enum CategoryStatus {
+  ACTIVE
+  HIDDEN
 }

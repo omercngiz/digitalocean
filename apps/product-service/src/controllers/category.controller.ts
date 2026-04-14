@@ -20,5 +20,10 @@ export const getCategory = async (req: Request, res: Response) => {
 }
 
 export const getCategories = async (req: Request, res: Response) => {
-    res.json({ message: 'Get all categories' });
+    const categories = await prisma.category.findMany({
+        where: { status: "ACTIVE" },
+        orderBy: { sortOrder: "asc" },
+        include: { _count: { select: { products: true } } },
+    });
+    res.json(categories);
 }

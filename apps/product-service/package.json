@@ -22,6 +22,7 @@
 	"devDependencies": {
 		"@digitalocean/eslint-config": "workspace:*",
 		"@digitalocean/typescript-config": "workspace:*",
+		"@digitalocean/types": "workspace:*",
 		"@types/cors": "^2.8.19",
 		"@types/express": "^5.0.6",
 		"eslint": "^9.0.0",

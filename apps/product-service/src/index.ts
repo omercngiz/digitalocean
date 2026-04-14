@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { clerkMiddleware } from '@clerk/express';
 import { shouldBeUser } from './middleware/auth';
@@ -14,6 +14,10 @@ app.use(cors({
 }))
 app.use(express.json());
 app.use(clerkMiddleware());
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+});
 
 app.use('/products', productRouter);
 app.use('/categories', categoryRouter);

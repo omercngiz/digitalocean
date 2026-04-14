@@ -1,22 +1,42 @@
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import FilterBar from "@/components/filterBar";
+import { FilterItem } from "@/components/filterItem";
+import { ItemCard } from "@/components/itemCard";
+import { ItemPanel } from "@/components/itemPanel";
+import PageBanner from "@/components/pageBanner";
+import SearchBar from "@/components/searchBar";
+import SortMenu from "@/components/sortMenu";
 
 export default function Home() {
-  return (
-    <section className="flex flex-1 flex-col items-center justify-center px-4 py-24 text-center sm:py-32">
-      <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-        Hoş Geldiniz
-      </h1>
-      <p className="mt-4 max-w-lg text-lg text-muted sm:text-xl">
-        Modern, hızlı ve güvenilir çözümler üreten bir yazılım platformu.
-      </p>
-      <Link
-        href="/products"
-        className="mt-8 inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
-      >
-        Ürünleri Keşfet
-        <ArrowRight size={16} />
-      </Link>
-    </section>
-  );
+	return (
+		<>
+			<PageBanner title="Hoş Geldiniz" description="Aşk olmadan, Meşk omaz." />
+
+			<section className="flex flex-1 flex-col items-center justify-center px-4 py-4 text-center sm:py-6 md:px-12">
+				<FilterBar>
+					<SearchBar placeholder="Ürünlerde ara..." />
+					<FilterItem name="Sülüs" slug="sulus" queryKey="category" />
+					<FilterItem name="Celi Sülüs" slug="celi-sulus" queryKey="category" />
+					<FilterItem name="Divani" slug="divani" queryKey="category" />
+					<FilterItem name="Ta'liq" slug="ta-liq" queryKey="category" />
+					<FilterItem name="Kufi" slug="kufi" queryKey="category" />
+					<FilterItem name="Murakka" slug="murakka" queryKey="category" />
+					<SortMenu />
+				</FilterBar>
+				<ItemPanel className="mt-6">
+					<ItemCard />
+					<ItemCard />
+					<ItemCard />
+					<ItemCard />
+					<ItemCard />
+					<ItemCard />
+					<ItemCard />
+					<ItemCard />
+					<ItemCard />
+					<ItemCard />
+					<ItemCard />
+					<ItemCard />
+				</ItemPanel>
+			</section>
+		</>
+	);
 }

@@ -26,7 +26,7 @@ export function Navbar() {
 					href="/"
 					className="text-xl font-bold tracking-tight text-primary"
 				>
-					cengizdev
+					mesk
 				</Link>
 
 				{/* Desktop Nav */}
