@@ -1,11 +1,18 @@
 import { clerkMiddleware } from "@hono/clerk-auth";
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { shouldBeUser } from "./middleware/auth.js";
+import { shouldBeAdmin, shouldBeUser } from "./middleware/auth.js";
+import { sessionRoute } from "./routes/session.route.js";
+import { cors } from "hono/cors";
 
 const app = new Hono();
 
 app.use("*", clerkMiddleware());
+app.use("*", cors({
+  origin: ["http://localhost:3001"]
+}));
+
+app.route("/session", sessionRoute);
 
 app.get("/health", (c) => {
   return c.json({
@@ -15,10 +22,22 @@ app.get("/health", (c) => {
   });
 });
 
-app.get("/test", shouldBeUser, (c) => {
+app.get("/test", shouldBeUser, shouldBeAdmin, (c) => {
   return c.json({
-    message: `Authenticated!`, userId: c.get("userId"),
+    message: `Authenticated and authorized!`, userId: c.get("userId"),
   });
+});
+
+app.post("/create-stripe-product", async (c) => {
+  
+});
+
+app.get("/stripe-products", async (c) => {
+;
+});
+
+app.get("/stripe-product-price/:id", async (c) => {
+
 });
 
 const start = async () => {
