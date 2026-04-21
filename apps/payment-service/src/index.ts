@@ -28,18 +28,6 @@ app.get("/test", shouldBeUser, shouldBeAdmin, (c) => {
   });
 });
 
-app.post("/create-stripe-product", async (c) => {
-  
-});
-
-app.get("/stripe-products", async (c) => {
-;
-});
-
-app.get("/stripe-product-price/:id", async (c) => {
-
-});
-
 const start = async () => {
   try {
     serve(

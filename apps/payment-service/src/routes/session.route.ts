@@ -4,8 +4,9 @@ import { shouldBeUser } from "../middleware/auth";
 
 const sessionRoute = new Hono();
 
-sessionRoute.get("/create-checkout-session", shouldBeUser, (c) => {
-    const session = stripe.checkout.sessions.create({
+
+sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
+    const session = await stripe.checkout.sessions.create({
         line_items: [
             {
                 price_data: {
@@ -22,7 +23,7 @@ sessionRoute.get("/create-checkout-session", shouldBeUser, (c) => {
     ui_mode: "embedded_page",
     return_url: "https://localhost:3001/success?session_id={CHECKOUT_SESSION_ID}"
     });
-    return c.json(session);
+    return c.json({ clientSecret: session.client_secret});
 });
 
 export { sessionRoute };
