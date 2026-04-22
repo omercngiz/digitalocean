@@ -1,0 +1,16 @@
+{
+	"name": "@digitalocean/kafka",
+	"version": "1.0.0",
+	"main": "./src/index.ts",
+	"type": "module",
+	"scripts": {
+		"check-types": "tsc --noEmit"
+	},
+	"devDependencies": {
+		"@digitalocean/typescript-config": "workspace:*",
+		"@types/node": "^25.6.0"
+	},
+	"dependencies": {
+		"kafkajs": "^2.2.4"
+	}
+}
