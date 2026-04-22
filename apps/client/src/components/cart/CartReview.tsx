@@ -4,16 +4,31 @@ import { Trash2, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface PlaceholderCartItem {
-	id: number;
+	id: string;
 	name: string;
 	price: number;
 	quantity: number;
 }
 
-const PLACEHOLDER_ITEMS: PlaceholderCartItem[] = [
-	{ id: 1, name: "Örnek Ürün 1", price: 149.99, quantity: 2 },
-	{ id: 2, name: "Örnek Ürün 2", price: 89.5, quantity: 1 },
-	{ id: 3, name: "Örnek Ürün 3", price: 249.0, quantity: 3 },
+export const PLACEHOLDER_ITEMS: PlaceholderCartItem[] = [
+	{
+		id: "prod_ULacHwHWRxeqtM",
+		name: "Örnek Ürün 1",
+		price: 2600,
+		quantity: 2,
+	},
+	{
+		id: "prod_ULacmXsMam4HEn",
+		name: "Örnek Ürün 2",
+		price: 12000,
+		quantity: 1,
+	},
+	{
+		id: "prod_ULadyDGU0rPGK5",
+		name: "Örnek Ürün 3",
+		price: 120,
+		quantity: 3,
+	},
 ];
 
 interface CartReviewProps {
@@ -42,7 +57,7 @@ export default function CartReview({ onNext }: CartReviewProps) {
 						<div>
 							<p className="text-sm font-bold text-primary">{item.name}</p>
 							<p className="mt-0.5 text-sm text-muted">
-								₺{item.price.toFixed(2)}
+								${(item.price / 100).toFixed(2)}
 							</p>
 						</div>
 
@@ -78,7 +93,7 @@ export default function CartReview({ onNext }: CartReviewProps) {
 					{/* Line Total */}
 					<div className="flex items-start">
 						<p className="text-sm font-bold text-primary">
-							₺{(item.price * item.quantity).toFixed(2)}
+							${((item.price * item.quantity) / 100).toFixed(2)}
 						</p>
 					</div>
 				</div>
@@ -89,7 +104,7 @@ export default function CartReview({ onNext }: CartReviewProps) {
 				<div className="flex items-center justify-between">
 					<span className="text-sm text-muted">Toplam</span>
 					<span className="text-2xl font-bold text-primary">
-						₺{totalPrice.toFixed(2)}
+						${(totalPrice / 100).toFixed(2)}
 					</span>
 				</div>
 				<div className="mt-6 flex flex-col gap-3 sm:flex-row">

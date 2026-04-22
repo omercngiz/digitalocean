@@ -1,12 +1,14 @@
 "use client";
 
-import * as React from "react";
+import React from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
 	EmbeddedCheckoutProvider,
 	EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
 import { Button } from "./ui/button";
+import { useAuth } from "@clerk/nextjs";
+import { PLACEHOLDER_ITEMS } from "./cart/CartReview";
 
 interface StripePaymentFormProps {
 	onBack: () => void;
@@ -17,22 +19,43 @@ const stripePromise = loadStripe(
 );
 
 const StripePaymentForm = ({ onBack }: StripePaymentFormProps) => {
-	const fetchClientSecret = React.useCallback(() => {
+	const fetchClientSecret = React.useCallback(async (token: string) => {
 		// Create a Checkout Session
 		return fetch(
 			`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/session/create-checkout-session`,
 			{
 				method: "POST",
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ cart: PLACEHOLDER_ITEMS }),
 			},
 		)
 			.then((res) => res.json())
 			.then((data) => data.clientSecret);
 	}, []);
 
-	const options = { fetchClientSecret };
+	const [token, setToken] = React.useState<string | null>(null);
+	const { getToken } = useAuth();
+
+	React.useEffect(() => {
+		getToken().then((token) => setToken(token));
+	}, []);
+
+	if (!token) {
+		return <p>Loading...</p>;
+	}
+
+	const options = {
+		fetchClientSecret: () => fetchClientSecret(token),
+	};
 
 	return (
 		<div id="checkout">
+			<div>
+				<p>options: {JSON.stringify(options)}</p>
+			</div>
 			<EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
 				<EmbeddedCheckout />
 			</EmbeddedCheckoutProvider>

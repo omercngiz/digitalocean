@@ -3,6 +3,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { shouldBeAdmin, shouldBeUser } from "./middleware/auth.js";
 import { sessionRoute } from "./routes/session.route.js";
+import { webhooksRoute } from "./routes/webhooks.route.js";
 import { cors } from "hono/cors";
 
 const app = new Hono();
@@ -13,6 +14,7 @@ app.use("*", cors({
 }));
 
 app.route("/session", sessionRoute);
+app.route("/webhooks", webhooksRoute);
 
 app.get("/health", (c) => {
   return c.json({

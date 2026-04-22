@@ -19,10 +19,10 @@ export const createStripeProduct = async (item: StripeProductType) => {
 
 export const getStripeProductPrice = async (productId: string) => {
     try {
-        const price = await stripe.prices.list({
+        const res = await stripe.prices.list({
             product: productId,
         });
-        return price.data[0]?.unit_amount; // Assuming you want the first price associated with the product
+        return res.data[0]?.unit_amount;
     }catch (error) {
         console.log(error);
         return error;

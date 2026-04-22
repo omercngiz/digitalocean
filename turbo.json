@@ -1,7 +1,12 @@
 {
 	"$schema": "https://turborepo.dev/schema.json",
 	"ui": "tui",
-	"globalEnv": ["PORT", "STRIPE_SECRET_KEY"],
+	"globalEnv": [
+		"PORT",
+		"STRIPE_SECRET_KEY",
+		"STRIPE_RETURN_URL",
+		"STRIPE_WEBHOOK_SECRET"
+	],
 	"tasks": {
 		"build": {
 			"dependsOn": ["^build"],
